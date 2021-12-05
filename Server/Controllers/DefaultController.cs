@@ -19,7 +19,7 @@ public class DefaultController : ControllerBase
         {
             return BadRequest("User id is required");
         }
-        var accessUri = _client.GetClientAccessUri(userId: id);
+        var accessUri = _client.GetClientAccessUri(userId: id, roles: new []{"webpubsub.joinLeaveGroup.lari","webpubsub.sendToGroup.lari"});
         return Ok(accessUri.AbsoluteUri);
     }
     
@@ -44,6 +44,7 @@ public class DefaultController : ControllerBase
         {
             var userId = Request.Headers["ce-userid"];
             await _client.SendToAllAsync($"{userId} {body}");
+            
         }
         
         return Ok();
